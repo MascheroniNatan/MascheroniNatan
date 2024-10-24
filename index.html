@@ -1,41 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/2.0.0/aframe/build/aframe-ar.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   </head>
-  <body>
-    <h1>Verifica posizione GPS</h1>
-    <button onclick="getLocation()">Mostra la mia posizione</button>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam;">
+      <a-entity gps-entity-place></a-entity>
+      <a-camera gps-camera="simulateAltitude: false; positionMinAccuracy: 100;"></a-camera>
+    </a-scene>
 
     <script>
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition, showError);
-        } else {
-          alert("La geolocalizzazione non è supportata da questo browser.");
-        }
-      }
+      // Forza l'aggiornamento della posizione GPS
+      const camera = document.querySelector('a-camera');
 
-      function showPosition(position) {
-        alert(`Latitudine: ${position.coords.latitude}, Longitudine: ${position.coords.longitude}`);
-      }
+      // Quando la posizione GPS viene aggiornata, mostra l'alert
+      camera.addEventListener('gps-camera-update-position', function (event) {
+        console.log("Evento rilevato:", event);
+        const { latitude, longitude } = event.detail.position;
+        alert(`La tua posizione è:\nLatitudine: ${latitude}\nLongitudine: ${longitude}`);
+      });
 
-      function showError(error) {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            alert("Utente ha negato la richiesta di geolocalizzazione.");
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert("Informazioni sulla posizione non disponibili.");
-            break;
-          case error.TIMEOUT:
-            alert("La richiesta di localizzazione è scaduta.");
-            break;
-          case error.UNKNOWN_ERROR:
-            alert("Errore sconosciuto.");
-            break;
-        }
-      }
+      // Gestione degli errori
+      camera.addEventListener('gps-camera-error', function (error) {
+        console.error("Errore GPS:", error);
+      });
+
+      // Test aggiuntivo: forza una richiesta di geolocalizzazione manualmente ogni 5 secondi
+      setInterval(() => {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log("Geolocalizzazione manuale: ", position);
+        });
+      }, 5000);
     </script>
   </body>
 </html>
