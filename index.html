@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>AR.js A-Frame Location-based</title>
-<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js'></script>
-<script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
-</head>
-<body>
-<a-scene vr-mode-ui='enabled: true' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: true' renderer='antialias: true; alpha: true'>
-    <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
-    <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 45.60139; longitude: 8.84809" scale="10 10 10"></a-entity>
-</a-scene>
-</body>
+    <head>
+        <title>AR.js A-Frame Location-based</title>
+        <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+        <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js'></script>
+        <script type='text/javascript' src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js'></script>
+    </head>
+    <body>
+        <a-scene vr-mode-ui='enabled: true' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: true' renderer='antialias: true; alpha: true'>
+            <a-camera gps-new-camera='gpsMinDistance: 5'></a-camera>
+            <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 45.60139; longitude: 8.84809" scale="10 10 10"></a-entity>
+        </a-scene>
+        <script>
+            // Mostra un alert con la posizione dell'utente
+            document.querySelector('a-camera').addEventListener('gps-camera-update-position', function (event) {
+              const { latitude, longitude } = event.detail.position;
+              alert(`La tua posizione è:\nLatitudine: ${latitude}\nLongitudine: ${longitude}`);
+            });
+        </script>
+    </body>
 </html>
