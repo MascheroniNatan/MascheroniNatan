@@ -13,9 +13,15 @@
 
     <script>
       // Mostra un alert con la posizione dell'utente
-      document.querySelector('a-camera').addEventListener('gps-camera-update-position', function (event) {
+      const camera = document.querySelector('a-camera');
+      camera.addEventListener('gps-camera-update-position', function (event) {
+        console.log("Evento rilevato:", event);
         const { latitude, longitude } = event.detail.position;
         alert(`La tua posizione è:\nLatitudine: ${latitude}\nLongitudine: ${longitude}`);
+      });
+
+      camera.addEventListener('gps-camera-error', function (error) {
+        console.error("Errore GPS:", error);
       });
     </script>
   </body>
