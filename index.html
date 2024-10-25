@@ -7,8 +7,9 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="sourceType: webcam;">
-      <a-entity gps-entity-place></a-entity>
-      <a-camera gps-camera="simulateAltitude: false; positionMinAccuracy: 100;"></a-camera>
+      <a-entity gps-new-entity-place></a-entity>
+      <a-box material="color: green;" scale="25 25 25" gps-entity-place="latitude: 45.601038; longitude: 	8.8473955;"></a-box>
+      <a-camera gps-new-camera="simulateAltitude: false; positionMinAccuracy: 600; alert: true"></a-camera>
     </a-scene>
 
     <script>
@@ -33,12 +34,6 @@
         console.error("Errore GPS:", error);
       });
 
-      // Test aggiuntivo: forza una richiesta di geolocalizzazione manualmente ogni 5 secondi
-      setInterval(() => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          console.log("Geolocalizzazione manuale: ", position);
-        });
-      }, 5000);
     </script>
   </body>
 </html>
