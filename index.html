@@ -22,6 +22,12 @@
         alert(`La tua posizione è:\nLatitudine: ${latitude}\nLongitudine: ${longitude}`);
       });
 
+      camera.addEventListener('gps-camera-origin-coord-set', function (event) {
+        console.log("Evento rilevato:", event);
+        const { latitude, longitude } = event.detail.position;
+        alert(`La tua posizione è:\nLatitudine: ${latitude}\nLongitudine: ${longitude}`);
+      });
+
       // Gestione degli errori
       camera.addEventListener('gps-camera-error', function (error) {
         console.error("Errore GPS:", error);
